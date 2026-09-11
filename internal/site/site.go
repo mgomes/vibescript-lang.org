@@ -201,7 +201,7 @@ func (a *App) home(req *ohm.Request) error {
 		ContentTemplate: "home",
 		Page: page{
 			Title:       "Vibescript",
-			Description: "A small Ruby-like language for extending Go apps within boundaries you set.",
+			Description: "A Ruby-like language for your Go app. Users and AI agents write scripts. You control their access and execution limits.",
 			Section:     "home",
 		},
 		ShowcaseExamples: a.store.TaggedCount("showcase"),
@@ -222,7 +222,7 @@ func (a *App) examplesIndex(req *ohm.Request) error {
 		ContentTemplate: "examples",
 		Page: page{
 			Title:       "Examples",
-			Description: "Browse Vibescript examples and run them in your browser with the real interpreter.",
+			Description: "Hundreds of Vibescript examples. Read the code and run it in your browser.",
 			Section:     "examples",
 		},
 		ShowcaseExamples: a.store.TaggedCount("showcase"),
@@ -265,7 +265,7 @@ func (a *App) referencePage(req *ohm.Request) error {
 		ContentTemplate: "reference",
 		Page: page{
 			Title:       "Language Reference",
-			Description: "Vibescript syntax and behavior, including named calls, value collections, types, sandbox limits, and host settings.",
+			Description: "Vibescript syntax, types, sandbox limits, and how to run scripts in your Go app.",
 			Section:     "reference",
 		},
 		Reference:        a.reference,

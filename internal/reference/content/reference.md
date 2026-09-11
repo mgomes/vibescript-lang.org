@@ -1,14 +1,12 @@
-Vibescript lets users and AI agents add scripts to a Go app. Like Lua in a
-game, each script runs inside limits set by the host app. This page covers the
-language boundary, sandbox, and main host settings. For the full Go API,
-capability adapters, migration notes, and built-in methods, see the
+Vibescript runs scripts inside your Go app. Your app supplies the data and
+functions each script can use, and sets its execution limits. For the Go API,
+adapters that connect scripts to your app, and migration notes, see the
 [upstream docs](https://github.com/xipkit/vibescript/tree/master/docs).
 
-Vibescript is an embedded workflow language, not a general-purpose Ruby
-runtime. Scripts call named functions and methods, transform value collections,
-and invoke capabilities supplied by the host. Blocks run synchronously during
-the call that receives them. Modules are namespaces. The Go app owns
-concurrency, delay, I/O, and external authority.
+Scripts call named functions and methods, work with arrays and hashes, and
+use services your app provides. Blocks run during the call that receives them.
+Modules group functions and constants. Your Go app handles concurrency,
+scheduling, and I/O.
 
 ## Basics {#basics}
 
