@@ -175,7 +175,7 @@ func (w *timeoutResponseWriter) Unwrap() http.ResponseWriter {
 	return w.ResponseWriter
 }
 
-const heroExampleSlug = "showcase-finance-late-fee"
+const heroExampleSlug = "showcase-notifications-sms"
 
 // guardrails holds the display strings for the sandbox limits, derived from
 // the real runner configuration so the homepage can never drift from it.

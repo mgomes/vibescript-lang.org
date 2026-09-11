@@ -670,6 +670,38 @@ The upstream [built-ins guide](https://github.com/xipkit/vibescript/blob/master/
 and [standard library guide](https://github.com/xipkit/vibescript/blob/master/docs/stdlib_core_utilities.md)
 list every method, including methods on strings, arrays, hashes, and ranges.
 
+### Add SMS and email {#app-services}
+
+Your app can give scripts services such as SMS, email, or a job queue through
+**capabilities**. You choose the names and methods. For example, an adapter can
+expose `sms.send(phone, body)` or `email.send(address, subject, body)`.
+
+The [SMS example](/examples/showcase-notifications-sms) and
+[email example](/examples/showcase-notifications-email) include the Go adapters
+that run them. Both return message previews. They don't send anything.
+
+Each adapter implements `Bind`, which returns the names a script can use.
+`NewTypedBuiltin` checks the arguments and return type. Pass the adapter in
+`CallOptions.Capabilities` when you call the script:
+
+```go
+result, err := script.Call(ctx, "run", nil, vibes.CallOptions{
+    Capabilities: []vibes.CapabilityAdapter{
+        notifications.SMS{},
+        notifications.Email{},
+    },
+})
+if err != nil {
+    return err
+}
+```
+
+Here, `notifications` is your Go package containing the adapters shown in the
+examples. Pass only the capabilities that a particular script needs. The
+adapter's Go code decides who can receive a message and which provider to use.
+Keep provider credentials in Go, and pass `binding.Context` to the provider's
+client so it can honor cancellation and deadlines.
+
 ### Host-owned scheduling {#host-scheduling}
 
 One `Script.Call` is the unit the Go app schedules and budgets. Scripts do not

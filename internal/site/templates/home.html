@@ -19,15 +19,16 @@
   <div class="hero-panel">
     <div class="code-window hero-runner">
       <div class="code-window-header">
-        <span class="code-window-title">late_fee.vibe</span>
+        <span class="code-window-title">delivery_update.vibe</span>
         <span class="code-window-version">{{.UpstreamVersion}}</span>
       </div>
       <pre><code class="language-vibescript">{{.HeroExample.SourceBody}}</code></pre>
       {{if .HeroExample.Runnable}}
       <div class="hero-runner-bar">
         <button class="button run-button hero-run-button" type="button" data-run-button data-run-url="/api/examples/{{.HeroExample.Slug}}/run">Run it</button>
-        <a class="hero-runner-link" href="/examples/{{.HeroExample.Slug}}">View example &rarr;</a>
+        <a class="hero-runner-link" href="/examples/{{.HeroExample.Slug}}">See the Go adapter &rarr;</a>
       </div>
+      <p class="hero-preview-note">{{.HeroExample.Description}}</p>
       <pre class="hero-runner-output" data-run-output></pre>
       {{end}}
     </div>
@@ -89,10 +90,11 @@ end</code></pre>
 
   <div class="pair">
     <div class="pair-copy">
-      <h3>Call scripts from Go.</h3>
+      <h3>Add your own services.</h3>
       <p>
-        Create an engine, compile your script, then call one of its functions.
-        Pass in the data and capabilities the script needs.
+        Give a script an SMS service, an email client, or your own API through a
+        Go capability. You write the adapter. The script calls it like any other method.
+        <a href="/reference#app-services">Here's how to connect one.</a>
       </p>
     </div>
     <div class="pair-panel">
@@ -101,14 +103,17 @@ end</code></pre>
           <span class="code-window-title">main.go</span>
           <span class="code-window-version">host side</span>
         </div>
-        <pre><code><span class="tok-function">engine</span>, _ := vibes.<span class="tok-type">NewEngine</span>(vibes.<span class="tok-type">Config</span>{
-  StepQuota: <span class="tok-number">250_000</span>,
-})
-
-<span class="tok-function">script</span>, _ := engine.<span class="tok-type">Compile</span>(userScript)
-
-fee, _ := script.<span class="tok-type">Call</span>(ctx, <span class="tok-string">"late_fee"</span>, args, opts)
-fee.<span class="tok-type">String</span>() <span class="tok-comment">// "5.00 USD"</span></code></pre>
+        <pre><code class="language-go">opts := vibes.CallOptions{
+  Capabilities: []vibes.CapabilityAdapter{
+    notifications.SMS{},
+  },
+}
+result, err := script.Call(
+  ctx, "run", nil, opts,
+)
+if err != nil {
+  return err
+}</code></pre>
       </div>
     </div>
   </div>
@@ -181,7 +186,7 @@ end</code></pre>
   <svg class="sparkle sparkle-lg sparkle-constant sparkle-float sparkle-philosophy" style="--tilt: -24deg" aria-hidden="true"><use href="#sparkle"></use></svg>
   <div class="philosophy-copy">
     <p class="eyebrow"><svg class="vee" aria-hidden="true"><use href="#vee"></use></svg> In your app</p>
-    <h2>Let users adapt your app.</h2>
+    <h2>Give scripts access to your app's services.</h2>
     <p>
       Put pricing rules, approval steps, or notification schedules in scripts that
       users can change without rebuilding your app.
@@ -189,6 +194,12 @@ end</code></pre>
     <p>
       Your Go app handles I/O and scheduling. Scripts use the functions and data you
       provide to calculate a price, choose the next reviewer, or plan a reminder.
+    </p>
+    <p>
+      Add services through Go capabilities. A script can then call
+      <a href="/examples/showcase-notifications-sms"><code>sms.send(...)</code></a> or
+      <a href="/examples/showcase-notifications-email"><code>email.send(...)</code></a>.
+      Try the message previews and see the Go adapters behind them.
     </p>
   </div>
 
@@ -229,7 +240,7 @@ end</code></pre>
   <div class="section-intro">
     <p class="eyebrow"><svg class="vee" aria-hidden="true"><use href="#vee"></use></svg> Featured</p>
     <h2>A few examples to start with.</h2>
-    <p class="section-sub">Calculate fees, check approvals, and work with collections.</p>
+    <p class="section-sub">Send notifications, calculate fees, and check approvals.</p>
   </div>
   <div class="card-grid">
     {{range .Featured}}
