@@ -13,8 +13,8 @@ import (
 
 const (
 	UpstreamRepoURL  = "https://github.com/xipkit/vibescript"
-	UpstreamVersion  = "v0.60.0"
-	upstreamRevision = "v0.60.0"
+	UpstreamVersion  = "v0.70.0"
+	upstreamRevision = "v0.70.0"
 )
 
 var featuredExamples = map[string]int{
